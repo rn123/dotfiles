@@ -1,0 +1,2 @@
+alias lf='ls -FC'
+alias clipboard='kitty +kitten clipboard'
