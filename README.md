@@ -28,7 +28,11 @@ sudo make install
 
 ## zsh
 
+Read [Configuring Zsh without Dependencies](https://thevaluable.dev/zsh-install-configure-mouseless/).
+
 ```sh
 cat /etc/shells
 sudo chsh -s $(which zsh) $USER
 ```
+
+
