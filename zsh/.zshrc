@@ -192,5 +192,5 @@ bindkey -M vicmd '^v' edit-command-line
 
 # source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export TERM=xterm
-
+source ~/.zshenv
 eval "$(zoxide init zsh)"

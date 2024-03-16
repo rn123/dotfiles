@@ -91,3 +91,4 @@ export NVM_DIR="$XDG_DATA_HOME/nvm"
 # PATH
 export PATH="$GOBIN:$PATH"                                          # GOBIN
 export PATH="$NPM_BIN:$PATH"                                        # NPM
+export PATH=~/.local/bin:$PATH
