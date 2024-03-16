@@ -18,9 +18,9 @@ lazy:
 nvim:
 	sudo apt update
 	sudo apt install ninja-build gettext cmake unzip curl build-essential git
-	git clone https://github.com/neovim/neovim
-	cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=~/.local/
-	cd neovim && sudo make install
+	git clone https://github.com/neovim/neovim ~/scratch/neovim
+	cd ~/scratch/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=~/.local/
+	cd ~/scratch/neovim && sudo make install
 
 ## zsh
 # Read [Configuring Zsh without Dependencies](https://thevaluable.dev/zsh-install-configure-mouseless/).
