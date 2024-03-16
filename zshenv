@@ -5,7 +5,7 @@
 ###############################
 
 export TERM='xterm-256color'
-export DOTFILES="$HOME/.dotfiles"
+export DOTFILES="$HOME/dotfiles"
 export WORKSPACE="$HOME/scratch"
 
 [ -f "$DOTFILES/install_config" ] && source "$DOTFILES/install_config"
