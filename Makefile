@@ -5,12 +5,6 @@ cli:
 	sudo apt update
 	sudo apt install -y zsh duf fzf ripgrep fd-find htop most zoxide
 
-## Configure neovim with [lazyvim](https://www.lazyvim.org/installation).
-lazy:
-	rm -rf ~/.config/nvim
-	git clone https://github.com/LazyVim/starter ~/.config/nvim
-	rm -rf ~/.config/nvim/.git
-
 ## [Building neovim](https://github.com/neovim/neovim/blob/master/BUILD.md)
 nvim:
 	sudo apt update
@@ -18,6 +12,12 @@ nvim:
 	git clone https://github.com/neovim/neovim ~/scratch/neovim
 	cd ~/scratch/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo # CMAKE_INSTALL_PREFIX=~/.local/
 	cd ~/scratch/neovim && sudo make install
+
+## Configure neovim with [lazyvim](https://www.lazyvim.org/installation).
+lazy:
+	rm -rf ~/.config/nvim
+	git clone https://github.com/LazyVim/starter ~/.config/nvim
+	rm -rf ~/.config/nvim/.git
 
 ## Read [Configuring Zsh without Dependencies](https://thevaluable.dev/zsh-install-configure-mouseless/).
 zshconfig:
@@ -33,8 +33,8 @@ pyenv:
       libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev \
       lzma lzma-dev tk-dev uuid-dev zlib1g-dev
 	git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-	echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.config/zsh/.zshrc
-	echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.config/zsh/.zshrc
+	echo 'export PYENV_ROOT="$(HOME)/.pyenv"' >> ~/.config/zsh/.zshrc
+	echo '[[ -d $(PYENV_ROOT)/bin ]] && export PATH="$(PYENV_ROOT)/bin:$(PATH)"' >> ~/.config/zsh/.zshrc
 	echo 'eval "$(pyenv init -)"' >> ~/.config/zsh/.zshrc
 
 ## virtualenv plugin for pyenv
