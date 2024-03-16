@@ -3,33 +3,32 @@
 ## Modern CLI Utilities
 cli:
 	sudo apt update
-	sudo apt install zsh duf fzf ripgrep fd-find htop most zoxide
+	sudo apt install -y zsh duf fzf ripgrep fd-find htop most zoxide
 
 ## Configure neovim with [lazyvim](https://www.lazyvim.org/installation).
 lazy:
-	mv ~/.config/nvim{,.bak}
-	mv ~/.local/share/nvim{,.bak}
-	mv ~/.local/state/nvim{,.bak}
-	mv ~/.cache/nvim{,.bak}
-	git clone https://github.com/LazyVim/starter ~/.config/nvim && rm -rf ~/.config/nvim/.git
+	rm -rf ~/.config/nvim
+	git clone https://github.com/LazyVim/starter ~/.config/nvim
+	rm -rf ~/.config/nvim/.git
 
 ## [Building neovim](https://github.com/neovim/neovim/blob/master/BUILD.md)
 nvim:
 	sudo apt update
-	sudo apt install ninja-build gettext cmake unzip curl build-essential git
+	sudo apt install -y ninja-build gettext cmake unzip curl build-essential git
 	git clone https://github.com/neovim/neovim ~/scratch/neovim
-	cd ~/scratch/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=~/.local/
+	cd ~/scratch/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo # CMAKE_INSTALL_PREFIX=~/.local/
 	cd ~/scratch/neovim && sudo make install
 
 ## Read [Configuring Zsh without Dependencies](https://thevaluable.dev/zsh-install-configure-mouseless/).
-zsh:
-	cat /etc/shells
-	sudo chsh -s $(which zsh) $USER
+zshconfig:
+	# sudo chsh -s $(which zsh) $USER
+	cp zshenv ~/.zshenv
+	cp -rp zsh ~/.config
 
 ## pyenv and cpython build
 pyenv:
 	sudo apt update
-	sudo apt install build-essential build-dep python3 gdb lcov pkg-config \
+	sudo apt install build-essential python3 gdb lcov pkg-config \
       libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev \
       libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev \
       lzma lzma-dev tk-dev uuid-dev zlib1g-dev
@@ -39,7 +38,7 @@ pyenv:
 	echo 'eval "$(pyenv init -)"' >> ~/.config/zsh/.zshrc
 
 ## virtualenv plugin for pyenv
-virtualenv:
+virtualenv: pyenv
 	git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
 	echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.config/zsh/.zshrc
 
