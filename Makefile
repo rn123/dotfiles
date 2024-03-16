@@ -1,7 +1,6 @@
 # dotfiles Command Line Utilities
 
 ## Modern CLI Utilities
-
 cli:
 	sudo apt update
 	sudo apt install zsh duf fzf ripgrep fd-find htop most zoxide
@@ -22,8 +21,7 @@ nvim:
 	cd ~/scratch/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=~/.local/
 	cd ~/scratch/neovim && sudo make install
 
-## zsh
-# Read [Configuring Zsh without Dependencies](https://thevaluable.dev/zsh-install-configure-mouseless/).
+## Read [Configuring Zsh without Dependencies](https://thevaluable.dev/zsh-install-configure-mouseless/).
 zsh:
 	cat /etc/shells
 	sudo chsh -s $(which zsh) $USER
