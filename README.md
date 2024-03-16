@@ -1,6 +1,10 @@
 # dotfiles
 # Command Line
 
+## Modern CLI Utilities
+
+sudo apt install zsh duf fzf ripgrep fd-find htop most zoxide
+
 ## Configure neovim with [lazyvim](https://www.lazyvim.org/installation).
 
 ```sh
