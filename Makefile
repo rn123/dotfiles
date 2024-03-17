@@ -5,7 +5,7 @@ cli:
 	sudo apt update
 	sudo apt install -y zsh duf fzf ripgrep fd-find htop most zoxide
 
-## [Building neovim](https://github.com/neovim/neovim/blob/master/BUILD.md)
+## Read [Building neovim](https://github.com/neovim/neovim/blob/master/BUILD.md)
 nvim:
 	sudo apt update
 	sudo apt install -y ninja-build gettext cmake unzip curl build-essential git
@@ -35,8 +35,6 @@ pyenv:
 	echo 'export PYENV_ROOT="$$HOME/.pyenv"' >> ~/.config/zsh/.zshrc; \
 	echo '[[ -d $$PYENV_ROOT/bin ]] && export PATH="$$PYENV_ROOT/bin:$$PATH"' >> ~/.config/zsh/.zshrc; \
 	echo 'eval "$$(pyenv init -)"' >> ~/.config/zsh/.zshrc
-
-
 
 ## virtualenv plugin for pyenv
 virtualenv:
