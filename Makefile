@@ -32,15 +32,16 @@ pyenv:
       libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev \
       libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev \
       lzma lzma-dev tk-dev uuid-dev zlib1g-dev
-	git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-	echo 'export PYENV_ROOT="$(HOME)/.pyenv"' >> ~/.config/zsh/.zshrc
-	echo '[[ -d $(PYENV_ROOT)/bin ]] && export PATH="$(PYENV_ROOT)/bin:$(PATH)"' >> ~/.config/zsh/.zshrc
-	echo 'eval "$(pyenv init -)"' >> ~/.config/zsh/.zshrc
+	echo 'export PYENV_ROOT="$$HOME/.pyenv"' >> ~/.config/zsh/.zshrc; \
+	echo '[[ -d $$PYENV_ROOT/bin ]] && export PATH="$$PYENV_ROOT/bin:$$PATH"' >> ~/.config/zsh/.zshrc; \
+	echo 'eval "$$(pyenv init -)"' >> ~/.config/zsh/.zshrc
+
+
 
 ## virtualenv plugin for pyenv
-virtualenv: pyenv
-	git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
-	echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.config/zsh/.zshrc
+virtualenv:
+	git clone https://github.com/pyenv/pyenv-virtualenv.git $$(pyenv root)/plugins/pyenv-virtualenv
+	echo 'eval "$$(pyenv virtualenv-init -)"' >> ~/.config/zsh/.zshrc
 
 #################################################################################
 # Self Documenting Commands                                                     #
