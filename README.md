@@ -1,13 +1,21 @@
 # dotfiles Command Line Utilities
 
+And I never knew that 'history' was a link to the built-in zsh comand fc (fix command). Find more information in man zshbuiltins.
+
+```
+fc 0
+```
+
+````
+
 ## Modern CLI Utilities
 
 ```sh
 sudo apt update
 sudo apt install zsh duf fzf ripgrep fd-find htop most zoxide
-```
+````
 
-## Configure neovim with [lazyvim](https://www.lazyvim.org/installation).
+## Configure neovim with [lazyvim](https://www.lazyvim.org/installation)
 
 ```sh
 # required
