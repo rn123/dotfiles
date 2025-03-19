@@ -3,7 +3,7 @@
 ## Modern CLI Utilities
 cli:
 	sudo apt update
-	sudo apt install -y zsh duf fzf ripgrep fd-find htop most zoxide
+	sudo apt install -y zsh duf fzf ripgrep fd-find htop most zoxide strace lsof iproute2
 
 ## Read [Building neovim](https://github.com/neovim/neovim/blob/master/BUILD.md)
 nvim:
