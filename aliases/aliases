@@ -1,4 +1,4 @@
 alias lf='ls -FC'
 alias clipboard='kitty +kitten clipboard'
 alias history='fc -l 1'
-alias hi='fc -l 1 | fzf --scheme=history -e'
+alias hi='fc -l 1 | fzf --scheme=history -e --tac --no-sort'
