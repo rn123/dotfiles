@@ -31,10 +31,7 @@ setopt HIST_FIND_NO_DUPS         # Do not display a previously found event.
 # setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
 # setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
 setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
-
-HISTFILE=~/.config/zsh/.zsh_history
-HISTSIZE=100000
-SAVEHIST=100000
+# HISTFILE, HISTSIZE and SAVEHIST are set in zshenv
 
 # +--------+
 # | COLORS |
@@ -137,7 +134,6 @@ bindkey -M vicmd '^a' incarg
 # +------------+
 
 source $DOTFILES/zsh/completion.zsh
-autoload -Uz $DOTFILES/zsh/plugins/kubectl-completion/zsh-kubectl-completion
 
 # +-----+
 # | Git |
@@ -197,6 +193,16 @@ bindkey -M vicmd '^v' edit-command-line
 # +---------------------+
 
 # source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-export TERM=xterm
-source ~/.zshenv
+
+# +-------+
+# | pyenv |
+# +-------+
+
+export PYENV_ROOT="$HOME/.pyenv"
+if [[ -d $PYENV_ROOT/bin ]]; then
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+    [[ -d $PYENV_ROOT/plugins/pyenv-virtualenv ]] && eval "$(pyenv virtualenv-init -)"
+fi
+
 eval "$(zoxide init zsh)"

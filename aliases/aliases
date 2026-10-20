@@ -1,4 +1,8 @@
 alias lf='ls -FC'
-alias clipboard='kitty +kitten clipboard'
+if (( $+commands[clip.exe] )); then
+    alias clipboard='clip.exe'  # WSL
+else
+    alias clipboard='kitty +kitten clipboard'
+fi
 alias history='fc -l 1'
 alias hi='fc -l 1 | fzf --scheme=history -e --tac --no-sort'

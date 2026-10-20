@@ -1,73 +1,67 @@
 # dotfiles Command Line Utilities
 
-And I never knew that 'history' was a link to the built-in zsh comand fc (fix command). Find more information in man zshbuiltins.
+Run `make` to list the targets. Everything targets Debian/Ubuntu (apt), including WSL.
 
-```
-fc 0
+## Quick start
+
+```sh
+git clone https://github.com/rn123/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+make cli zshconfig chsh
 ```
 
-````
+## WSL on Windows
+
+- Run `make` from inside WSL, not PowerShell, in a clone in the Linux home (`~/dotfiles`).
+  Everything under `/mnt/c` is mode `0777`, so compinit stops at an "insecure directories" prompt,
+  and git and ripgrep are much slower there. `make zshconfig` refuses to run from `/mnt/*`.
+- `make wsl` sets `appendWindowsPath=false` in `/etc/wsl.conf` so zsh completion doesn't scan ~30
+  Windows directories; then run `wsl --shutdown` from Windows. `zshenv` adds back
+  `/mnt/c/windows/system32` and `/mnt/c/windows` (for `clip.exe`, `explorer.exe`).
+- `clipboard` uses `clip.exe` when it's available, otherwise kitty.
+- `.gitattributes` forces LF endings so a Windows-side checkout (`core.autocrlf=true`) can't break
+  the shell scripts or the Makefile.
 
 ## Modern CLI Utilities
 
-```sh
-sudo apt update
-sudo apt install zsh duf fzf ripgrep fd-find htop most zoxide
-````
-
-## Configure neovim with [lazyvim](https://www.lazyvim.org/installation)
-
-```sh
-# required
-mv ~/.config/nvim{,.bak}
-
-# optional but recommended
-mv ~/.local/share/nvim{,.bak}
-mv ~/.local/state/nvim{,.bak}
-mv ~/.cache/nvim{,.bak}
-
-git clone https://github.com/LazyVim/starter ~/.config/nvim && rm -rf ~/.config/nvim/.git
-```
-
-## [Building neovim](https://github.com/neovim/neovim/blob/master/BUILD.md)
+`make cli`:
 
 ```sh
 sudo apt update
-sudo apt install ninja-build gettext cmake unzip curl build-essential git
-git clone https://github.com/neovim/neovim
-cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=~/.local/
-sudo make install
+sudo apt install zsh duf fzf ripgrep fd-find htop most zoxide strace lsof iproute2 tree
+ln -sf $(command -v fdfind) ~/.local/bin/fd   # Debian names the binary fdfind
 ```
 
 ## zsh
 
 Read [Configuring Zsh without Dependencies](https://thevaluable.dev/zsh-install-configure-mouseless/).
+`make zshconfig` copies `zshenv` to `~/.zshenv` and `zsh/` to `~/.config/zsh`. `make chsh` makes zsh
+the login shell.
+
+`history` is the zsh builtin `fc` (fix command); see `man zshbuiltins`. The `hi` alias pipes it to fzf.
+
+## neovim
+
+`EDITOR`, `VISUAL` and `MANPAGER` all use `nvim`. The apt package is recent enough for LazyVim:
 
 ```sh
-cat /etc/shells
-sudo chsh -s $(which zsh) $USER
+sudo apt install neovim
+```
+
+Or build it with `make nvim` ([Building neovim](https://github.com/neovim/neovim/blob/master/BUILD.md)).
+
+### Configure neovim with [lazyvim](https://www.lazyvim.org/installation)
+
+`make lazy` replaces `~/.config/nvim` with the LazyVim starter. Back up an existing config first:
+
+```sh
+mv ~/.config/nvim{,.bak}
+mv ~/.local/share/nvim{,.bak}
+mv ~/.local/state/nvim{,.bak}
+mv ~/.cache/nvim{,.bak}
 ```
 
 ## pyenv and cpython build
 
-```sh
-sudo apt update
-sudo apt install build-essential build-dep python3 gdb lcov pkg-config \
-      libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev \
-      libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev \
-      lzma lzma-dev tk-dev uuid-dev zlib1g-dev
-```
-
-```sh
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.config/zsh/.zshrc
-echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.config/zsh/.zshrc
-echo 'eval "$(pyenv init -)"' >> ~/.config/zsh/.zshrc
-```
-
-## virtualenv plugin for pyenv
-
-```sh
-git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
-echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.config/zsh/.zshrc
-```
+`make pyenv` installs the CPython build dependencies and clones pyenv to `~/.pyenv`;
+`make virtualenv` adds the pyenv-virtualenv plugin. `.zshrc` initializes both when they're present.

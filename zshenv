@@ -21,9 +21,9 @@ export VISUAL="nvim"
 
 # zsh
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-export HISTFILE="$ZDOTDIR/.zhistory"    # History filepath
-export HISTSIZE=10000                   # Maximum events for internal history
-export SAVEHIST=10000                   # Maximum events in history file
+export HISTFILE="$ZDOTDIR/.zsh_history" # History filepath
+export HISTSIZE=100000                  # Maximum events for internal history
+export SAVEHIST=100000                  # Maximum events in history file
 
 # other software
 export TMUXP_CONFIGDIR="$XDG_CONFIG_HOME/tmuxp"
@@ -83,7 +83,7 @@ export GIT_REVIEW_BASE=master # See gitconfig
 # from xdg-ninja
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
-export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+[ -z "$WSL_DISTRO_NAME" ] && export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority" # WSLg manages its own
 export WINEPREFIX="$XDG_DATA_HOME/wine"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 export NVM_DIR="$XDG_DATA_HOME/nvm"
@@ -92,3 +92,9 @@ export NVM_DIR="$XDG_DATA_HOME/nvm"
 export PATH="$GOBIN:$PATH"                                          # GOBIN
 export PATH="$NPM_BIN:$PATH"                                        # NPM
 export PATH=~/.local/bin:$PATH
+
+# WSL: the Windows PATH is not appended (see `make wsl`); keep clip.exe, explorer.exe, etc.
+if [ -n "$WSL_DISTRO_NAME" ]; then
+    export PATH="$PATH:/mnt/c/windows/system32:/mnt/c/windows"
+fi
+typeset -U path                                                     # Drop duplicate PATH entries

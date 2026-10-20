@@ -3,7 +3,8 @@
 ## Modern CLI Utilities
 cli:
 	sudo apt update
-	sudo apt install -y zsh duf fzf ripgrep fd-find htop most zoxide strace lsof iproute2
+	sudo apt install -y zsh duf fzf ripgrep fd-find htop most zoxide strace lsof iproute2 tree
+	mkdir -p ~/.local/bin && ln -sf $$(command -v fdfind) ~/.local/bin/fd
 
 ## Read [Building neovim](https://github.com/neovim/neovim/blob/master/BUILD.md)
 nvim:
@@ -20,27 +21,45 @@ lazy:
 	rm -rf ~/.config/nvim/.git
 
 ## Read [Configuring Zsh without Dependencies](https://thevaluable.dev/zsh-install-configure-mouseless/).
+## Links ~/dotfiles to this checkout when it lives elsewhere.
 zshconfig:
-	# sudo chsh -s $(which zsh) $USER
+	@case "$(CURDIR)" in /mnt/*) \
+		echo "Windows-mounted files are world-writable, which makes compinit stop at an"; \
+		echo "'insecure directories' prompt. Clone into the WSL home and run make there:"; \
+		echo "  git clone https://github.com/rn123/dotfiles.git ~/dotfiles"; \
+		exit 1;; \
+	esac
+	[ -e ~/dotfiles ] || ln -s $(CURDIR) ~/dotfiles
 	cp zshenv ~/.zshenv
-	cp -rp zsh ~/.config
+	mkdir -p ~/.config && cp -r zsh ~/.config
+	chmod -R go-w ~/.zshenv ~/.config/zsh
+
+## Make zsh the login shell
+chsh:
+	chsh -s $$(command -v zsh)
+
+## WSL: stop appending the Windows PATH (then run `wsl --shutdown` from Windows)
+wsl:
+	@if grep -q '^appendWindowsPath' /etc/wsl.conf 2>/dev/null; then \
+		echo "appendWindowsPath already set in /etc/wsl.conf"; \
+	elif grep -q '^\[interop\]' /etc/wsl.conf 2>/dev/null; then \
+		echo "add appendWindowsPath=false under [interop] in /etc/wsl.conf"; \
+	else \
+		printf '\n[interop]\nappendWindowsPath=false\n' | sudo tee -a /etc/wsl.conf; \
+	fi
 
 ## pyenv and cpython build
 pyenv:
 	sudo apt update
-	sudo apt install build-essential python3 gdb lcov pkg-config \
+	sudo apt install -y build-essential python3 gdb lcov pkg-config \
       libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev \
-      libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev \
-      lzma lzma-dev tk-dev uuid-dev zlib1g-dev
-	git clone https://github.com/pyenv/pyenv.git ~/.pyenv 
-	echo 'export PYENV_ROOT="$$HOME/.pyenv"' >> ~/.config/zsh/.zshrc; \
-	echo '[[ -d $$PYENV_ROOT/bin ]] && export PATH="$$PYENV_ROOT/bin:$$PATH"' >> ~/.config/zsh/.zshrc; \
-	echo 'eval "$$(pyenv init -)"' >> ~/.config/zsh/.zshrc
+      libncurses-dev libreadline-dev libsqlite3-dev libssl-dev \
+      tk-dev uuid-dev zlib1g-dev
+	[ -d ~/.pyenv ] || git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 
 ## virtualenv plugin for pyenv
 virtualenv:
-	git clone https://github.com/pyenv/pyenv-virtualenv.git $$(pyenv root)/plugins/pyenv-virtualenv
-	echo 'eval "$$(pyenv virtualenv-init -)"' >> ~/.config/zsh/.zshrc
+	[ -d ~/.pyenv/plugins/pyenv-virtualenv ] || git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
 
 #################################################################################
 # Self Documenting Commands                                                     #
